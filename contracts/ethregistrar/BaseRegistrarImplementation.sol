@@ -1,3 +1,7 @@
+
+// SPDX-License-Identifier: MIT
+//Namehash for amafans.avax 0xebe01c10293ea407999042e53b38d64553ff4d7047a655b40db70181988bb3f1
+
 pragma solidity >=0.8.4;
 
 import "../registry/ENS.sol";
@@ -146,7 +150,7 @@ contract BaseRegistrarImplementation is ERC721, BaseRegistrar  {
         ens.setSubnodeOwner(baseNode, bytes32(id), owner);
     }
 
-    function supportsInterface(bytes4 interfaceID) public override(ERC721, IERC165) view returns (bool) {
+    function supportsInterface(bytes4 interfaceID) public override(ERC721, IERC165) pure returns (bool) {
         return interfaceID == INTERFACE_META_ID ||
                interfaceID == ERC721_ID ||
                interfaceID == RECLAIM_ID;
