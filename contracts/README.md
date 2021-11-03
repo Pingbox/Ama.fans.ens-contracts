@@ -46,3 +46,11 @@ The resolver will the default publicResolver.
     seconds in an year: 31536000
     seconds in 10 years: 315360000
     
+Deployed Addresses on FujiTestNet:
+BaseregistrarImplementation: 0xEa20FdC09263AF02f8F6E985A557d84b9F86d559
+PublicResolver: 0x992Db0cB1fAc35B0192A508Bf45007302525752f
+ENSRegistry: 0x3C74301af958bEA542e36A87011D9d10945E35FC
+DummyAMAClient: 0x0C5F6731B4C65B02509F5a7dC87eEF6AAC8a9EBC
+
+
+
