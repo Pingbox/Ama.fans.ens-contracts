@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.8.4;
 abstract contract ResolverBase {
     bytes4 private constant INTERFACE_META_ID = 0x01ffc9a7;

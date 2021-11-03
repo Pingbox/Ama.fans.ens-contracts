@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.8.4;
 pragma experimental ABIEncoderV2;
 
@@ -25,7 +27,7 @@ interface Resolver{
     function text(bytes32 node, string calldata key) external view returns (string memory);
     function interfaceImplementer(bytes32 node, bytes4 interfaceID) external view returns (address);
     function setABI(bytes32 node, uint256 contentType, bytes calldata data) external;
-    function setAddr(bytes32 node, address addr) external;
+    function setAddr(bytes32 _node, address _addr) external;
     function setAddr(bytes32 node, uint coinType, bytes calldata a) external;
     function setContenthash(bytes32 node, bytes calldata hash) external;
     function setDnsrr(bytes32 node, bytes calldata data) external;

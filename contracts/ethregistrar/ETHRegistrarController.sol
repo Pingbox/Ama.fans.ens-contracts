@@ -42,7 +42,6 @@ contract ETHRegistrarController is Ownable {
 
     constructor(BaseRegistrarImplementation _base, PriceOracle _prices, uint _minCommitmentAge, uint _maxCommitmentAge) public {
         require(_maxCommitmentAge > _minCommitmentAge);
-
         base = _base;
         prices = _prices;
         minCommitmentAge = _minCommitmentAge;

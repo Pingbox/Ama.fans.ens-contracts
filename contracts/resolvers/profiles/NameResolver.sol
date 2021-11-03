@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity >=0.8.4;
 import "../ResolverBase.sol";
 
@@ -12,11 +14,11 @@ abstract contract NameResolver is ResolverBase {
      * Sets the name associated with an ENS node, for reverse records.
      * May only be called by the owner of that node in the ENS registry.
      * @param node The node to update.
-     * @param name The name to set.
+     * @param _name The name to set.
      */
-    function setName(bytes32 node, string calldata name) external authorised(node) {
-        names[node] = name;
-        emit NameChanged(node, name);
+    function setName(bytes32 node, string calldata _name) external authorised(node) {
+        names[node] = _name;
+        emit NameChanged(node, _name);
     }
 
     /**
