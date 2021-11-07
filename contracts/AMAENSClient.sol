@@ -5,22 +5,25 @@
 pragma solidity >=0.8.4;
 import "./ethregistrar/BaseRegistrarImplementation.sol";
 import "./resolvers/Resolver.sol";
+import "./root/Controllable.sol";
 
 
-contract DummyAMAClient {
+contract AMAENSClient is Controllable {
     BaseRegistrarImplementation base;
     address resolver;
     uint duration;
     event NameRegistered(string name, bytes32 indexed label, address indexed owner, uint expires);
     event NameRenewed(string name, bytes32 indexed label,  uint expires);
+
     constructor(BaseRegistrarImplementation _base, address _resolver, uint _duration){
                 base = _base;
                 resolver = _resolver;
                 duration = _duration;
 
     }
+
     
-    function register(string memory name, address owner) public  {
+    function register(string memory name, address owner) public onlyController {
 
         bytes32 label = keccak256(bytes(name));
         uint256 tokenId = uint256(label);
@@ -37,6 +40,8 @@ contract DummyAMAClient {
         //set key value pairs here
         // Set the resolver
         base.ens().setResolver(nodehash, resolver);
+        base.ens().setTTL(nodehash, uint64(expires));
+
 
         // Configure the resolver
         Resolver(resolver).setAddr(nodehash, owner);
@@ -51,7 +56,7 @@ contract DummyAMAClient {
 
         }
         
-        function renew(string calldata name, uint _duration) external payable {
+        function renew(string calldata name, uint _duration) external payable onlyController {
 
             bytes32 label = keccak256(bytes(name));
             uint expires = base.renew(uint256(label), _duration);
