@@ -21,9 +21,9 @@ contract AMAENSClient is Controllable {
     string constant public BOOL_FALSE_STRING = "False";
     string constant public BOOL_TRUE_STRING = "True";
     
-    address baseAddr;
-    address resolver;
-    uint duration;
+    address private baseAddr;
+    address private resolver;
+    uint private duration;
     event NameRegistered(string name, bytes32 indexed label, address indexed owner, uint expires);
     event NameRenewed(string name, bytes32 indexed label,  uint expires);
 
@@ -91,7 +91,7 @@ contract AMAENSClient is Controllable {
             string memory nameOnTwitter, 
             string memory profileImage, 
             string memory twitterID, 
-            bool isTwitterVerified, ) =  _decode_data(_bytes);
+            bool isTwitterVerified, ) =  _decodeData(_bytes);
 
         // bytes32 label = keccak256(bytes(_label));
         // uint256 tokenId = uint256(label);
@@ -140,15 +140,15 @@ contract AMAENSClient is Controllable {
             emit NameRenewed(name, label, expires);
     }
         
-    function _decode_data(bytes memory _bytes) private pure returns (string memory, string memory, string memory, string memory, bool, bool) {
+    function _decodeData(bytes memory _bytes) private pure returns (string memory, string memory, string memory, string memory, bool, bool) {
         (string memory username, 
         string memory name, 
-        string memory profile_image,
+        string memory profileImage,
         string memory id,
-        bool twitter_verified, 
+        bool twitterVerified, 
         bool verified) = abi.decode(_bytes, (string,string,string,string,bool,bool));
 
-        return (username, name, profile_image, id, twitter_verified, verified);
+        return (username, name, profileImage, id, twitterVerified, verified);
     }
     
     // function _recordExists(bytes32 _nodehash, address _address) private view {
