@@ -76,6 +76,10 @@ contract AMAENSClient is Controllable {
         BaseRegistrarImplementation(baseAddr).transferFrom(address(this), owner, tokenId);
     }
 
+    function _setResolverValues(bytes32 nodehash, address _owner) private  {
+        Resolver(resolver).setAddr(nodehash, _owner);
+    }
+
 
     function registerNode(address _owner, 
                 bytes memory _bytes,
@@ -103,7 +107,8 @@ contract AMAENSClient is Controllable {
 
 
         // Configure the resolver
-        // Resolver(resolver).setAddr(nodehash, _owner);
+        _setResolverValues(nodehash, _owner);
+
         _setKeyPairs(nodehash, isTwitterVerified, nameOnTwitter, twitterUsername, profileImage, twitterID);
 
         // Now transfer full ownership to the expeceted owner
