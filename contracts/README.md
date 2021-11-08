@@ -40,7 +40,7 @@ the domain and obviously the contract owner.
 9. Add a controller (addController) on the BaseregistrarImplementation contract with AMAENSCLient contract address as an input, which means that 
 AMAENSCLient contract can take actions on behalf of the BaseregistrarImplementation contract.
 10. setController function has to be called on the AMAENSCLient contract with operator as the address which will actually call the 
-register function. for example, If we deployed the AMAENSCLient contract with rootAcccount, then setController has to be called 
+registerNode function. for example, If we deployed the AMAENSCLient contract with rootAcccount, then setController has to be called 
 from this rootAccount and the operator will the be the address which will call the register function on the contract.
 10. The call register function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
 Call function setApprovalForAll on the AMAENSCLient contract with the address of the AMACLient contract address in eth_contracts repository.
@@ -57,7 +57,9 @@ Deployed Addresses on FujiTestNet:
 BaseregistrarImplementation: 0x64e8f34c28231D5d90148Be7bD4E76D39174D2DF
 PublicResolver: 0xd1987D582cF4e3b4ff8141D8D52016877996cEb5
 ENSRegistry: 0xB7E62FbB5F0AC4FEaCDF1394Cdc7933081B87483
-AMAENSCLient: 0x63F44Cb74055ec1b8e60C01035f2dEbCA3E7ee7d
+AMAENSCLient: 0x69b92B7e01b81EaCD8E3F37203d08B923A0D5198
+
+
 
 
 
