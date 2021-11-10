@@ -140,7 +140,7 @@ contract AMAENSClient is Controllable {
             emit NameRenewed(name, label, expires);
     }
         
-    function _decodeData(bytes memory _bytes) private pure returns (string memory, string memory, string memory, string memory, bool) {
+    function _decodeData(bytes memory _bytes) public pure returns (string memory, string memory, string memory, string memory, bool) {
         (string memory username, 
         string memory name, 
         string memory profileImage,

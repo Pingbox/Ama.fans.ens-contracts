@@ -42,7 +42,7 @@ AMAENSCLient contract can take actions on behalf of the BaseregistrarImplementat
 10. setController function has to be called on the AMAENSCLient contract with operator as the address which will actually call the 
 registerNode function. for example, If we deployed the AMAENSCLient contract with rootAcccount, then setController has to be called 
 from this rootAccount and the operator will the be the address which will call the register function on the contract.
-10. The call register function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
+10. The call registerNode function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
 Call function setApprovalForAll on the AMAENSCLient contract with the address of the AMACLient contract address in eth_contracts repository.
 
 11.The resolver will the default publicResolver.
@@ -52,14 +52,19 @@ Call function setApprovalForAll on the AMAENSCLient contract with the address of
     "test.amafans" Namehash: 
     seconds in an year: 31536000
     seconds in 10 years: 315360000
-    
+
+BASENODE AMAfans: 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638
+LABELHASH AMAfans: 0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6
+ROOTNODE: 0x0000000000000000000000000000000000000000000000000000000000000000
 Deployed Addresses on FujiTestNet:
-BaseregistrarImplementation: 0x64e8f34c28231D5d90148Be7bD4E76D39174D2DF
-PublicResolver: 0xd1987D582cF4e3b4ff8141D8D52016877996cEb5
-ENSRegistry: 0xB7E62FbB5F0AC4FEaCDF1394Cdc7933081B87483
-AMAENSCLient: 0x69b92B7e01b81EaCD8E3F37203d08B923A0D5198
+BaseregistrarImplementation: 0xDC6befB67469fea03D2bf497a4acdA9cc1f03fBB
+PublicResolver: 0xcE8C885949B0616040e3D8d78c83557CcCcb137F fee:0.0897952
+ENSRegistry: 0xCf58c6D2BB907920138700a7d05B319Db99d191F  fee: 0.026911
+AMAENSCLient: 0x0a2e3ff4ee221FF332b4D98EE06C9b341c470B19 fee: 0.0629055
 
+Adding contoller on BaseregistrarImplementation with the adrdess of AMAENSClient: 0.00118975
 
+Adding setController on AMAENSClient with the address of AMACLCLient : 0.0012082
+Calling setSubnodeOwner on ENS with "0x0" ad node and label as labelhash(amafans) and BaseregistrarImplementation address: 0.001253675
 
-
-
+SetDomain: 0.016117 AVAX
