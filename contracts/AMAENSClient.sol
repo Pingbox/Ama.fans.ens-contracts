@@ -91,7 +91,7 @@ contract AMAENSClient is Controllable {
             string memory nameOnTwitter, 
             string memory profileImage, 
             string memory twitterID, 
-            bool isTwitterVerified, ) =  _decodeData(_bytes);
+            bool isTwitterVerified) =  _decodeData(_bytes);
 
         // bytes32 label = keccak256(bytes(_label));
         // uint256 tokenId = uint256(label);
@@ -140,26 +140,16 @@ contract AMAENSClient is Controllable {
             emit NameRenewed(name, label, expires);
     }
         
-    function _decodeData(bytes memory _bytes) private pure returns (string memory, string memory, string memory, string memory, bool, bool) {
+    function _decodeData(bytes memory _bytes) private pure returns (string memory, string memory, string memory, string memory, bool) {
         (string memory username, 
         string memory name, 
         string memory profileImage,
         string memory id,
-        bool twitterVerified, 
-        bool verified) = abi.decode(_bytes, (string,string,string,string,bool,bool));
+        bool twitterVerified) = abi.decode(_bytes, (string,string,string,string,bool));
 
-        return (username, name, profileImage, id, twitterVerified, verified);
+        return (username, name, profileImage, id, twitterVerified);
     }
     
-    // function _recordExists(bytes32 _nodehash, address _address) private view {
-    //     if (BaseRegistrarImplementation(baseAddr).ens().recordExists(_nodehash)){
-    //         revert("This subdomain already exists, You can now choose a different username for this address");
-    //     }
-    //     if (BaseRegistrarImplementation(baseAddr).ens().owner(_nodehash) == _address){
-    //         revert("You have already claimed");
-
-    //     }
-    //     }
     
         //https://github.com/ensdomains/ens-contracts/blob/master/contracts/root/Root.sol
     function _setTextMulticall(bytes32 nameHash, 
