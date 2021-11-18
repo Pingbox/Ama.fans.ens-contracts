@@ -1,8 +1,8 @@
 require("@nomiclabs/hardhat-truffle5");
 require("@nomiclabs/hardhat-waffle");
-require("hardhat-abi-exporter");
-require("@nomiclabs/hardhat-solhint");
-require("hardhat-gas-reporter");
+// require("hardhat-abi-exporter");
+// require("@nomiclabs/hardhat-solhint");
+// require("hardhat-gas-reporter");
 require("hardhat-deploy");
 require("hardhat-deploy-ethers");
 
@@ -89,4 +89,3 @@ module.exports = {
     },
   },
 };
-

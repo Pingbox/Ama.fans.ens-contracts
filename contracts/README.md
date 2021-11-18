@@ -30,13 +30,13 @@ the domain and obviously the contract owner.
     ```
     In case of amafans basenode, you should check 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638 (output of the above function if 
         you put _label as 0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6 i.e labelhash of amafans.
-    with this value you should call recordExists function on the ens and the output should be true.
+    with this value you should call recordExists function on the ensContract and the output should be true.
     
     Also, call function owner on ENS with this value and it should output the address of the BaseregistrarImplementation contract address.
     
 6. Deploy PublicResolver with ENSRegistry contract address and WRAPPERADDRESS = 0x0000000000000000000000000000000000000000.
 7. Call setResolver on the BaseregistrarImplementation with the owner of amafans node or its controller.
-8. Deploy AMAENSCLient.sol with the ENSRegistry address, PublicResolver address and duration of your liking.
+8. Deploy AMAENSCLient.sol with the BaseregistrarImplementation address, PublicResolver address and duration of your liking.
 9. Add a controller (addController) on the BaseregistrarImplementation contract with AMAENSCLient contract address as an input, which means that 
 AMAENSCLient contract can take actions on behalf of the BaseregistrarImplementation contract.
 10. setController function has to be called on the AMAENSCLient contract with operator as the address which will actually call the 
@@ -56,15 +56,12 @@ Call function setApprovalForAll on the AMAENSCLient contract with the address of
 BASENODE AMAfans: 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638
 LABELHASH AMAfans: 0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6
 ROOTNODE: 0x0000000000000000000000000000000000000000000000000000000000000000
-Deployed Addresses on FujiTestNet:
-BaseregistrarImplementation: 0xDC6befB67469fea03D2bf497a4acdA9cc1f03fBB
-PublicResolver: 0xcE8C885949B0616040e3D8d78c83557CcCcb137F fee:0.0897952
-ENSRegistry: 0xCf58c6D2BB907920138700a7d05B319Db99d191F  fee: 0.026911
-AMAENSCLient: 0x0a2e3ff4ee221FF332b4D98EE06C9b341c470B19 fee: 0.0629055
 
-Adding contoller on BaseregistrarImplementation with the adrdess of AMAENSClient: 0.00118975
 
-Adding setController on AMAENSClient with the address of AMACLCLient : 0.0012082
-Calling setSubnodeOwner on ENS with "0x0" ad node and label as labelhash(amafans) and BaseregistrarImplementation address: 0.001253675
 
-SetDomain: 0.016117 AVAX
+
+Deployments on Fuji Testnet:
+ENSRegistry: 0x970e7636f5e3A09a41057D6bC9E54a20CAfbf4a3
+BaseregistrarImplementation: 0xFf4a5dee897fbD650F1AEb5c5ef214b9425122eF
+PublicResolver: 0xe30C409CF769912f9359625c6B33bc9959d0E95f
+AMAENSCLient: 0x291bbf7F5712ea859C0D8851913e32a47D95FDB9
