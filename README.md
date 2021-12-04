@@ -1,168 +1,111 @@
-# ENS
-
-[![Build Status](https://travis-ci.org/ensdomains/ens-contracts.svg?branch=master)](https://travis-ci.org/ensdomains/ens-contracts)
-
-For documentation of the ENS system, see [docs.ens.domains](https://docs.ens.domains/).
-
-## npm package
-
-This repo doubles as an npm package with the compiled JSON contracts
-
-```js
-import {
-  BaseRegistrar,
-  BaseRegistrarImplementation,
-  BulkRenewal,
-  ENS,
-  ENSRegistry,
-  ENSRegistryWithFallback,
-  ETHRegistrarController,
-  FIFSRegistrar,
-  LinearPremiumPriceOracle,
-  PriceOracle,
-  PublicResolver,
-  Resolver,
-  ReverseRegistrar,
-  StablePriceOracle,
-  TestRegistrar
-} from '@ensdomains/ens-contracts'
-```
-
-## Importing from solidity
-
-```
-// Registry
-import '@ensdomains/ens-contracts/contracts/registry/ENS.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ENSRegistry.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ENSRegistryWithFallback.sol';
-import '@ensdomains/ens-contracts/contracts/registry/ReverseRegistrar.sol';
-import '@ensdomains/ens-contracts/contracts/registry/TestRegistrar.sol';
-// EthRegistrar
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrarImplementation.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BulkRenewal.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/BaseRegistrar.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/ETHRegistrarController.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/LinearPremiumPriceOracle.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/PriceOracle.sol';
-import '@ensdomains/ens-contracts/contracts/ethregistrar/StablePriceOracle.sol';
-// Resolvers
-import '@ensdomains/ens-contracts/contracts/resolvers/PublicResolver.sol';
-import '@ensdomains/ens-contracts/contracts/resolvers/Resolver.sol';
-```
-
-##  Accessing to binary file.
-
-If your environment does not have compiler, you can access to the raw hardhat artifacts files at `node_modules/@ensdomains/ens-contracts/artifacts/contracts/${modName}/${contractName}.sol/${contractName}.json`
+This is the fork of the official ENS Repository. https://github.com/ensdomains .
+Because of the unavailability of the ENS repository on AVAX, We created this fork to let our users have access
+to the subdomains, To have an identity to be used on AMA.Fans platform.
 
 
-## Contracts
-
-## Registry
-
-The ENS registry is the core contract that lies at the heart of ENS resolution. All ENS lookups start by querying the registry. The registry maintains a list of domains, recording the owner, resolver, and TTL for each, and allows the owner of a domain to make changes to that data. It also includes some generic registrars.
-
-### ENS.sol
-
-Interface of the ENS Registry.
-
-### ENSRegistry
-
-Implementation of the ENS Registry, the central contract used to look up resolvers and owners for domains.
-
-### ENSRegistryWithFallback
-
-The new impelmentation of the ENS Registry after [the 2020 ENS Registry Migration](https://docs.ens.domains/ens-migration-february-2020/technical-description#new-ens-deployment).
-
-### FIFSRegistrar
-
-Implementation of a simple first-in-first-served registrar, which issues (sub-)domains to the first account to request them.
-
-### ReverseRegistrar
-
-Implementation of the reverse registrar responsible for managing reverse resolution via the .addr.reverse special-purpose TLD.
+#### labelhash of amafans: 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638: 
 
 
-### TestRegistrar
 
-Implementation of the `.test` registrar facilitates easy testing of ENS on the Ethereum test networks. Currently deployed on Ropsten network, it provides functionality to instantly claim a domain for test purposes, which expires 28 days after it was claimed.
+- #### ENSRegistry takes care of the root domain, its subdomains (in this case only one amafans) 
+    and all the other subdomains of subdomains and so on. WHoever deploys this contract becomes the 
+    owner of rootDomain 0X0 ``` records[0x0].owner = msg.sender; ```
+
+- #### BaseRegistrar which actually owns the root domain and has the relevant permissions to control the rootDomain.It has the 
+    relevant permissions to register, renew, reclaim  and controllers.
+
+- #### _RootDomain_: 0x0000000000000000000000000000000000000000000000000000000000000000
+    - #### _SubDomain_ :  0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638 (Namehash of amafans)
+        - #### _AllSubDomains: 0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6 (labelHash of amafans)
+            - #### _RestOfTheSubmainsUnderit_ : calculate the labelhash of the string and call setSubnodeOwner.
 
 
-## EthRegistrar
+- #### 		await ens.setSubnodeOwner('0x0', sha3('amafans'), registrar.address);
+        this ensures that amafans is actually a subdomain of the rootDomain which is 0X0. and every other 
+        domain will be created as a subdomain of amafans.
 
-Implements an [ENS](https://ens.domains/) registrar intended for the .eth TLD.
 
-These contracts were audited by ConsenSys dilligence; the audit report is available [here](https://github.com/ConsenSys/ens-audit-report-2019-02).
+#### Steps to deploy ENS on Avalance Testnet:
 
-### BaseRegistrar
+1. Deploy ENSRegistry.sol (use the OwnerAccount)
+2. Deploy BaseregistrarImplementation.sol with base node (Namehash of amafans) i.e 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638
+        ```
+		    registrar = await BaseRegistrar.new(ens.address, namehash.hash('amafans'), {from: ownerAccount});
+		
+        ```
+    Use the OwnerAccount
 
-BaseRegistrar is the contract that owns the TLD in the ENS registry. This contract implements a minimal set of functionality:
+3. Add a subnode owner on the ENS contract, this will make the registrar contract the owner of the .amafans domain on the ens contract.
+   Use labelhash of the amafans for this. this is saying that the root node is 0x0 and the subnode is sha3(amafans). This has to be 
+   called from the address who deployed ens registry contract.  this also sets the owner of the amafans as the Baseregistrar. 
+   All actions for creating subdomains on .amafans has to called by baseregistrar function.
 
- - The owner of the registrar may add and remove controllers.
- - Controllers may register new domains and extend the expiry of (renew) existing domains. They can not change the ownership or reduce the expiration time of existing domains.
- - Name owners may transfer ownership to another address.
- - Name owners may reclaim ownership in the ENS registry if they have lost it.
- - Owners of names in the interim registrar may transfer them to the new registrar, during the 1 year transition period. When they do so, their deposit is returned to them in its entirety.
+    ```
+		await ens.setSubnodeOwner('0x0', sha3('amafans'), registrar.address);
+    ```
 
-This separation of concerns provides name owners strong guarantees over continued ownership of their existing names, while still permitting innovation and change in the way names are registered and renewed via the controller mechanism.
+3. Testing the deployed contracts
+    - #### First you need to add a controller to Baseregister so that address can create a new subdomain on amafans.
+            So, the address who deployed the Baseregistrar must call addController with another address2
+            lets call it address_2(will create subdomain):
 
-### EthRegistrarController
+            ```
+                await registrar.addController(controllerAccount, {from: ownerAccount});
+            ```
+            after this address_2 can call register function on the BaseRegistrar and a subdomain on ENS will
+            be created. 
+    - #### lets create a new subdomain test.amafans.
+            ```
+                  
+            function getNodeHash(string memory _label) external pure returns (bytes32,bytes32,uint256){
+                bytes32 label = keccak256(bytes(_label));
+                uint256 tokenId = uint256(label);
+                return (label, keccak256(abi.encodePacked(BASENODE, label)), tokenId);
 
-EthRegistrarController is the first implementation of a registration controller for the new registrar. This contract implements the following functionality:
+            }
+            BASENODE is namehash of AMAFans.
+            ```
+            tokenId(testtest) = 67435640317129182582718462181570828843921522365924705664471817704192171889286
+            owner = "0x0000000000000000000000000000000000000001"
+            duration = 31536000
+            Call register from address_2
+    - #### lets check on ENSRegistry if this subdomain has been created or not.
+            use getNodeHash function with input as "testtest" and use this ```keccak256(abi.encodePacked(BASENODE, label))```
+            to ge the nodehash. With this nodeHash call recordExists and you will seee the owner as same as above.
 
- - The owner of the registrar may set a price oracle contract, which determines the cost of registrations and renewals based on the name and the desired registration or renewal duration.
- - The owner of the registrar may withdraw any collected funds to their account.
- - Users can register new names using a commit/reveal process and by paying the appropriate registration fee.
- - Users can renew a name by paying the appropriate fee. Any user may renew a domain, not just the name's owner.
 
-The commit/reveal process is used to avoid frontrunning, and operates as follows:
+    
+5. Deploy PublicResolver with ENSRegistry contract address and WRAPPERADDRESS = 0x0000000000000000000000000000000000000000.
+7. Call setResolver on the BaseregistrarImplementation with the owner of amafans node or its controller.
+8. Deploy AMAENSCLient.sol with the BaseregistrarImplementation address, PublicResolver address and duration of your liking.
 
- 1. A user commits to a hash, the preimage of which contains the name to be registered and a secret value.
- 2. After a minimum delay period and before the commitment expires, the user calls the register function with the name to register and the secret value from the commitment. If a valid commitment is found and the other preconditions are met, the name is registered.
+9. Add a controller (addController) on the BaseregistrarImplementation contract with AMAENSCLient contract address as an input, which means that 
+AMAENSCLient contract can take actions on behalf of the BaseregistrarImplementation contract. This is required because before this 
+only baseregistrar could create subdomains for amafans on ENSregistry contract.
 
-The minimum delay and expiry for commitments exist to prevent miners or other users from effectively frontrunnig registrations.
+10. setController function has to be called on the AMAENSCLient contract with operator as the address which will actually call the 
+registerNode function. for example, If we deployed the AMAENSCLient contract with rootAcccount, then setController has to be called 
+from this rootAccount and the operator will the be the address which will call the register function on the contract.
+10. The call registerNode function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
+11. Call function setApprovalForAll on the AMAENSCLient contract with the address of the AMACLCLient contract address in core_contracts repository.
 
-### SimplePriceOracle
+11.The resolver will the default publicResolver.
 
-SimplePriceOracle is a trivial implementation of the pricing oracle for the EthRegistrarController that always returns a fixed price per domain per year, determined by the contract owner.
 
-### StablePriceOracle
+    "test" Label Hash: 0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658
+    "test.amafans" Namehash: 
+    seconds in an year: 31536000
+    seconds in 10 years: 315360000
 
-StablePriceOracle is a price oracle implementation that allows the contract owner to specify pricing based on the length of a name, and uses a fiat currency oracle to set a fixed price in fiat per name.
+BASENODE AMAfans: 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638
+LABELHASH AMAfans: 0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6
+ROOTNODE: 0x0000000000000000000000000000000000000000000000000000000000000000
 
-## Resolvers
 
-Resolver implements a general-purpose ENS resolver that is suitable for most standard ENS use-cases. The public resolver permits updates to ENS records by the owner of the corresponding name.
 
-PublicResolver includes the following profiles that implements different EIPs.
 
-- ABIResolver = EIP 205 - ABI support (`ABI()`).
-- AddrResolver = EIP 137 - Contract address interface. EIP 2304 - Multicoin support (`addr()`).
-- ContentHashResolver = EIP 1577 - Content hash support (`contenthash()`).
-- InterfaceResolver = EIP 165 - Interface Detection (`supportsInterface()`).
-- NameResolver = EIP 181 - Reverse resolution (`name()`).
-- PubkeyResolver = EIP 619 - SECP256k1 public keys (`pubkey()`).
-- TextResolver = EIP 634 - Text records (`text()`).
-- DNSResolver = Experimental support is available for hosting DNS domains on the Ethereum blockchain via ENS. [The more detail](https://veox-ens.readthedocs.io/en/latest/dns.html) is on the old ENS doc.
-
-## Developer guide
-
-### How to setup
-
-```
-git clone https://github.com/ensdomains/ens-contracts
-cd ens-contracts
-yarn
-```
-
-### How to run tests
-
-```
-yarn test
-```
-
-### How to publish
-
-```
-yarn pub
-```
+##### Deployments on Fuji Testnet:
+- #### _ENSRegistry_: 0x970e7636f5e3A09a41057D6bC9E54a20CAfbf4a3
+- #### _BaseregistrarImplementation_: 0xFf4a5dee897fbD650F1AEb5c5ef214b9425122eF. _OWNER_: 0xFfc3CFEDe3b7fEb052B4C1299Ba161d12AeDf135
+- #### _PublicResolver_: 0xe30C409CF769912f9359625c6B33bc9959d0E95f
+- #### _AMAENSCLient_: 0x291bbf7F5712ea859C0D8851913e32a47D95FDB9 _OWNER_: 0xFfc3CFEDe3b7fEb052B4C1299Ba161d12AeDf135
