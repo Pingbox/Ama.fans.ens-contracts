@@ -1,10 +1,18 @@
-require("@nomiclabs/hardhat-truffle5");
 require("@nomiclabs/hardhat-waffle");
 // require("hardhat-abi-exporter");
 // require("@nomiclabs/hardhat-solhint");
-// require("hardhat-gas-reporter");
-require("hardhat-deploy");
-require("hardhat-deploy-ethers");
+require("hardhat-gas-reporter");
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config()
+
+
+let AVAX_FUJI_RPC_API_KEY =  process.env.AVAX_FUJI_RPC_API_KEY;
+
+let FEECCOLLECTOR_PRIVATE_KEY = process.env.FEECCOLLECTOR_PRIVATE_KEY;
+let ADMIN_PRIVATE_KEY = process.env.ADMIN_PRIVATE_KEY;
+
+
 
 // Load environment variables from .env file. Suppress warnings using silent
 // if this file is missing. dotenv will never modify any environment variables
@@ -22,13 +30,31 @@ task("accounts", "Prints the list of accounts", async () => {
   }
 });
 
-// You need to export an object to set up your config
-// Go to https://hardhat.org/config/ to learn more
-
-real_accounts = undefined;
-if(process.env.DEPLOYER_KEY && process.env.OWNER_KEY) {
-  real_accounts = [process.env.DEPLOYER_KEY, process.env.OWNER_KEY];
-}
+const argv = require('yargs/yargs')()
+  .env('')
+  .options({
+    ci: {
+      type: 'boolean',
+      default: false,
+    },
+    gas: {
+      alias: 'enableGasReport',
+      type: 'boolean',
+      default: false,
+    },
+    mode: {
+      alias: 'compileMode',
+      type: 'string',
+      choices: [ 'production', 'development' ],
+      default: 'development',
+    },
+    compiler: {
+      alias: 'compileVersion',
+      type: 'string',
+      default: '0.8.3',
+    },
+  })
+  .argv;
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -50,13 +76,17 @@ module.exports = {
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_ID}`,
       tags: ["test", "legacy", "use_root"],
       chainId: 3,
-      accounts: real_accounts,
+      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`]
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_ID}`,
       tags: ["legacy", "use_root"],
       chainId: 1,
-      accounts: real_accounts,
+      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`]
+    },
+    fujinet: {
+      url: `https://avalanche--fuji--rpc.datahub.figment.io/apikey/${AVAX_FUJI_RPC_API_KEY}/ext/bc/C/rpc`,
+      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`]
     }
   },
   mocha: {

@@ -1,4 +1,3 @@
-0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638: labelhash of amafans
 
 
 Steps to deploy ENS on Avalance Testnet:
@@ -29,10 +28,11 @@ Steps to deploy ENS on Avalance Testnet:
     Use the OwnerAccount
 
     ```
-3. Add a subnode owner on the ENS contract, this will make the registrar contract the owner of the .amafans domain on the ens contract.
+3. Add a subnode owner on the ENSRegistry contract, this will make the registrar contract the owner of the .amafans domain on the ens contract.
    Use labelhash of the amafans for this. this is saying that the root node is 0x0 and the subnode is sha3(amafans). This has to be 
    called from the address who deployed ens registry contract.  this also sets the owner of the amafans as the Baseregistrar. 
    All actions for creating subdomains on .amafans has to called by baseregistrar function.
+   0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6
 
     ```
 		await ens.setSubnodeOwner('0x0', sha3('amafans'), registrar.address);
@@ -57,17 +57,22 @@ Steps to deploy ENS on Avalance Testnet:
                 return (label, keccak256(abi.encodePacked(BASENODE, label)), tokenId);
 
             }
-            BASENODE is namehash of AMAFans.
+            BASENODE is namehash of AMAFans i.e 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638
             ```
-            tokenId(testtest) = 67435640317129182582718462181570828843921522365924705664471817704192171889286
+            For "test" label, this is 
+            labelHash= 0x9c22ff5f21f0b81b113e63f7db6da94fedef11b2119b4088b89664fb9a3cb658
+            nodeHash = 0xf90a0f90ddc34eaa5169bdd6a19e95ad0aaae90dfe3fe74b216907293f394ecf
+            tokenID = 70622639689279718371527342103894932928233838121221666359043189029713682937432
             owner = "0x0000000000000000000000000000000000000001"
             duration = 31536000
             Call register from address_2
     - #### lets check on ENSRegistry if this subdomain has been created or not.
-            use getNodeHash function with input as "testtest" and use this ```keccak256(abi.encodePacked(BASENODE, label))```
-            to ge the nodehash. With this nodeHash call recordExists and you will seee the owner as same as above.
+            use getNodeHash function with input as "test" and use this ```keccak256(abi.encodePacked(BASENODE, label))```
+            to get the nodehash (us the above nodeHash). With this nodeHash call recordExists and you will seee the owner as same as above.
 
-
+    - #### BaseRegistrar creates an NFT for every subdomain created i.e every Subdomain will have tokenID (see above),
+            To cross check, use this token ID and call function OwnerOf on BaseregistrarImplementation contract and 
+            you shall get 0x0000000000000000000000000000000000000001 as the returned address.
     
 5. Deploy PublicResolver with ENSRegistry contract address and WRAPPERADDRESS = 0x0000000000000000000000000000000000000000.
 7. Call setResolver on the BaseregistrarImplementation with the owner of amafans node or its controller.
@@ -103,3 +108,20 @@ ROOTNODE: 0x0000000000000000000000000000000000000000000000000000000000000000
 - #### _BaseregistrarImplementation_: 0xFf4a5dee897fbD650F1AEb5c5ef214b9425122eF. _OWNER_: 0xFfc3CFEDe3b7fEb052B4C1299Ba161d12AeDf135
 - #### _PublicResolver_: 0xe30C409CF769912f9359625c6B33bc9959d0E95f
 - #### _AMAENSCLient_: 0x291bbf7F5712ea859C0D8851913e32a47D95FDB9 _OWNER_: 0xFfc3CFEDe3b7fEb052B4C1299Ba161d12AeDf135
+
+
+##### Latest Deployments on Fuji Testnet:
+- #### _ENSRegistry_: 0xBAfe01364829D3902e7716a59AF6261E3399408b
+- #### _BaseregistrarImplementation_: 0x61E3de2672B1Ed1F505DB397E4D49bf00703C0b7. _OWNER_: 0xFfc3CFEDe3b7fEb052B4C1299Ba161d12AeDf135
+- #### _PublicResolver_: 0x5f5E2C301CA814962D382Bc6a4ADD3d8294CF0ec
+- #### _AMAENSCLient_: 0x373f65d55B7E4D861d9f7bfC465Ae67A2d491565 _OWNER_: 0xFfc3CFEDe3b7fEb052B4C1299Ba161d12AeDf135
+
+
+#### Controllers on BaseRegistrar (Fuji TestNet)
+
+- 0x3213eF068D8Def86A068D0cbBcbb3c00664894Ad
+- AMAENSClient: 0x373f65d55B7E4D861d9f7bfC465Ae67A2d491565
+
+
+#### Controllers on AMAENSClient:
+- AMACLCLient: 0x26E8369F26B7c40ADB36BF84d2c497C7D1839Fa2
