@@ -1,6 +1,4 @@
-// SPDX-License-Identifier: MIT
-
-pragma solidity >=0.8.4;
+pragma solidity ^0.8.4;
 
 library SHA1 {
     event Debug(bytes32 x);

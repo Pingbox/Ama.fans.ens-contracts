@@ -11,6 +11,7 @@ let AVAX_FUJI_RPC_API_KEY =  process.env.AVAX_FUJI_RPC_API_KEY;
 
 let FEECCOLLECTOR_PRIVATE_KEY = process.env.FEECCOLLECTOR_PRIVATE_KEY;
 let ADMIN_PRIVATE_KEY = process.env.ADMIN_PRIVATE_KEY;
+let OPERATOR_PRIVATE_KEY = process.env.OPERATOR_PRIVATE_KEY;
 
 
 
@@ -76,17 +77,17 @@ module.exports = {
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_ID}`,
       tags: ["test", "legacy", "use_root"],
       chainId: 3,
-      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`]
+      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`, `0x${OPERATOR_PRIVATE_KEY}`]
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_ID}`,
       tags: ["legacy", "use_root"],
       chainId: 1,
-      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`]
+      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`, `0x${OPERATOR_PRIVATE_KEY}`]
     },
     fujinet: {
-      url: `https://avalanche--fuji--rpc.datahub.figment.io/apikey/${AVAX_FUJI_RPC_API_KEY}/ext/bc/C/rpc`,
-      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`]
+      url: `${process.env.RPC_URL}`,
+      accounts: [`0x${ADMIN_PRIVATE_KEY}`, `0x${FEECCOLLECTOR_PRIVATE_KEY}`, `0x${OPERATOR_PRIVATE_KEY}`]
     }
   },
   mocha: {
@@ -110,12 +111,5 @@ module.exports = {
       }
     ]
   },
-  namedAccounts: {
-    deployer: {
-      default: 0,
-    },
-    owner: {
-      default: 1,
-    },
-  },
+
 };

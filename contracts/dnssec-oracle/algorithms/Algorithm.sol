@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.4;
 
 /**
@@ -11,5 +13,5 @@ interface Algorithm {
     * @param signature The signature to verify.
     * @return True iff the signature is valid.
     */
-    function verify(bytes calldata key, bytes calldata data, bytes calldata signature) external virtual view returns (bool);
+    function verify(bytes calldata key, bytes calldata data, bytes calldata signature) external  view returns (bool);
 }

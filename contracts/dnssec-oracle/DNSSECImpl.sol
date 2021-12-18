@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT
+
 pragma solidity ^0.8.4;
 pragma experimental ABIEncoderV2;
 
@@ -8,7 +10,7 @@ import "./DNSSEC.sol";
 import "./algorithms/Algorithm.sol";
 import "./digests/Digest.sol";
 import "./nsec3digests/NSEC3Digest.sol";
-import "@ensdomains/buffer/contracts/Buffer.sol";
+import "../Buffer.sol";
 
 /*
  * @dev An oracle contract that verifies and stores DNSSEC-validated DNS records.
