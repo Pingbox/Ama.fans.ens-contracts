@@ -76,7 +76,7 @@ to the subdomains, To have an identity to be used on AMA.Fans platform.
 
     
 5. Deploy PublicResolver with ENSRegistry contract address and WRAPPERADDRESS = 0x0000000000000000000000000000000000000000.
-7. Call setResolver on the BaseregistrarImplementation with the owner of amafans node or its controller.
+7. Call setResolver on the BaseregistrarImplementation with the owner of amafans node.
 8. Deploy AMAENSCLient.sol with the BaseregistrarImplementation address, PublicResolver address and duration of your liking.
 
 9. Add a controller (addController) on the BaseregistrarImplementation contract with AMAENSCLient contract address as an input, which means that 
