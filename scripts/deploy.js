@@ -8,10 +8,10 @@ require('dotenv').config()
 const DURATION = 31536000
 const ZERO_BYTES = "0x0000000000000000000000000000000000000000000000000000000000000000"
 const WRAPPERADDRESS = "0x0000000000000000000000000000000000000000"
-const ENSREGISTRY_ADDRESS = "0x06580e204c90b03f38361142DD02f801D418158d"
-const BASEREGISTRAR_ADDRESS = "0x2EE16B74699678EE32383fd6dC6878A4f2993d5F"
-const PUBLICRESOLVER_ADDRESS = "0x7e4B37a4f6A1abB3289f8Ca9931DcFc05bCE283A"
-const AMAENSCLEINT_ADDRESS = "0x781baa25B5BE7Ee75EB2BdBB44e2342648Ad0d4C"
+const ENSREGISTRY_ADDRESS = ""
+const BASEREGISTRAR_ADDRESS = ""
+const PUBLICRESOLVER_ADDRESS = ""
+const AMAENSCLEINT_ADDRESS = ""
 
 async function main() {
 
@@ -123,64 +123,6 @@ async function main() {
     console.log( "amaENSClient contract address", amaENSClient.address);
 
 
-
-  //   const ProxyAdmin =  await ethers.getContractFactory('ProxyAdmin');
-  //   proxyAdmin = await ProxyAdmin.deploy();
-  //   await proxyAdmin.deployed();
-  //   console.log( "proxyAdmin contract", proxyAdmin.address);
-
-  //   const reputationContract = await ethers.getContractFactory("ReputationLib");
-  //   reputationLib = await reputationContract.deploy();
-  //   await reputationLib.deployed();
-  //   console.log( "ReputationLib contract", reputationLib.address);
-
-
-  //   const postslibArtifact = await ethers.getContractFactory("PostsLib", {
-  //     libraries: {
-  //       ReputationLib: reputationLib.address
-  //   },
-  //   });
-  //   postsLib = await postslibArtifact.deploy();
-  //   await postsLib.deployed();
-  //   console.log("PostsLibContract contract", postsLib.address);
-
-
-  //   const postsArtifact = await ethers.getContractFactory("Posts", { 
-  //     libraries: {
-  //       PostsLib: postsLib.address,
-  //       ReputationLib: reputationLib.address
-  //     },
-  //   });
-
-  //   posts = await postsArtifact.deploy();   
-  // await posts.deployed();
-
-  // console.log("Posts Contract", posts.address);
-
-  // const TransparentUpgradeable = await ethers.getContractFactory("TransparentUpgradeableProxy");
-
-  // postsProxy = await TransparentUpgradeable.deploy(posts.address, proxyAdmin.address, initializeData)
-  // await postsProxy.deployed();
-  // console.log("Posts Proxy Deployed", postsProxy.address);
-
-  // console.log("Attaching and initializing posts contract")
-  // const _posts = await posts.attach(postsProxy.address);
-  // await _posts.connect(feeCollector).initialize(maxSubPostLimit,
-  //         minimumAmount,
-  //         defaultSubPostLimit,
-  //         feePercentage,
-  //         thresholdValueForFee,
-  //         nft.address,
-  //         AMACLCLIENT_ADDRESS,
-  //         feeCollector.address,
-  //         admin.address);
-
-
-  // let MINTER_ROLE = "0x9f2df0fed2c77648de5860a4cc508cd0818c85b8b8a1ab4ceeef8d981c8956a6"
-  // await nft.grantRole(MINTER_ROLE, postsProxy.address);
-
-  // res = await nft.hasRole(MINTER_ROLE, postsProxy.address);
-  // console.log(`postProxy ${postsProxy.address} can mint tokens on nft contract ${nft.address} [${res}]`)
   }
 
 
