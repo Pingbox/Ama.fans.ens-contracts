@@ -11,7 +11,7 @@ const WRAPPERADDRESS = "0x0000000000000000000000000000000000000000"
 const ENSREGISTRY_ADDRESS = ""
 const BASEREGISTRAR_ADDRESS = ""
 const PUBLICRESOLVER_ADDRESS = ""
-const AMAENSCLEINT_ADDRESS = ""
+const AMAENSCLIENT_ADDRESS = ""
 
 async function main() {
 
@@ -105,7 +105,7 @@ async function main() {
     console.log( "publicResolver contract", publicResolver.address);
 
 
-    if (AMAENSCLEINT_ADDRESS == ""){
+    if (AMAENSCLIENT_ADDRESS == ""){
       console.log( '\n', "Deploying AMAEnsClient resolver")
       amaENSClient = await amaENSClientContractF.deploy(baseRegistrar.address, publicResolver.address, DURATION);
       await amaENSClient.deployed();
@@ -114,9 +114,9 @@ async function main() {
       await baseRegistrar.addController(amaENSClient.address);
       
     }else{
-      console.log( '\n', `Loading amaENSClient from address ${AMAENSCLEINT_ADDRESS}`)
+      console.log( '\n', `Loading amaENSClient from address ${AMAENSCLIENT_ADDRESS}`)
 
-      amaENSClient = await amaENSClientContractF.attach(AMAENSCLEINT_ADDRESS);
+      amaENSClient = await amaENSClientContractF.attach(AMAENSCLIENT_ADDRESS);
 
     }
     

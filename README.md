@@ -89,5 +89,16 @@ from this rootAccount and the operator will the be the address which will call t
 10. The call registerNode function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
 11. Call function setApprovalForAll on the AMAENSCLient contract with the address of the AMACLCLient contract address in core_contracts repository.
 
-11.The resolver will the default publicResolver.
+12. The resolver will the default publicResolver.
 
+
+
+- ### Steps for  deployment of contracts
+- ##### check if you are going to deploy on mainnet and testnet. Based on the network, You may
+        want to change the RPC_URL, OWNER_PRIVATE_KEY, FEECCOLLECTOR_PRIVATE_KEY, OPERATOR_PRIVATE_KEY
+- #### run after_cl_client_deploy script only when the AMAClClient deployment is already done, This script 
+        just add AMACLClient address as an operator on the AMAENSClient so that AMACLClient can take actions 
+        on the root domain.
+- #### You dont need to have AMACLClient address while running deploy.js
+- #### Make sure the OWNER_PRIVATE_KEY, FEECCOLLECTOR_PRIVATE_KEY, OPERATOR_PRIVATE_KEY are same accross 
+        all the repositories.
