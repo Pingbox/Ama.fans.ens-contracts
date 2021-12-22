@@ -6,7 +6,7 @@ namehash = require('eth-ens-namehash')
 // require('dotenv').config()
 
 const AMAENSCLIENT_ADDRESS = "0x781baa25B5BE7Ee75EB2BdBB44e2342648Ad0d4C"
-const AMACLCLIENT_ADDRESS = process.env.AMACLCLIENT_ADDRESS
+const AMACLCLIENTPROXY_ADDRESS = process.env.AMACLCLIENTPROXY_ADDRESS
 
 async function main() {
 
@@ -16,22 +16,15 @@ async function main() {
     const [owner,  feeCollector, operator] = await ethers.getSigners();
     const amaENSClientContractF = await ethers.getContractFactory("AMAENSClient");
 
-    let ensRegistry;
-    let baseRegistrar;
-    let publicResolver;
     let amaENSClient;
     console.log(`Owner address ${owner.address}`)
     console.log(`Feecollector address ${feeCollector.address}`)
     console.log(`operator address ${operator.address}`)
 
-    const nameHash = namehash.hash(process.env.DOMAIN_NAME)
-    const labelHash = web3.utils.sha3('amafans')
-    const tokenId = web3.utils.toBN(web3.utils.sha3(Buffer.from("test", 'utf8'))).toString()
     const testDomain = "test" + "." + process.env.DOMAIN_NAME
-    const testNameHash = namehash.hash(testDomain)
 
 
-    if (AMACLCLIENT_ADDRESS == ""){
+    if (AMACLCLIENTPROXY_ADDRESS == ""){
         throw new Error('AMACLClient address is required');
       
     }
@@ -43,7 +36,7 @@ async function main() {
       console.log( '\n', `Loading amaENSClient from address ${AMAENSCLIENT_ADDRESS}`)
       amaENSClient = await amaENSClientContractF.attach(AMAENSCLIENT_ADDRESS);
       console.log( "amaENSClient contract address on which the operator will be added is", amaENSClient.address);
-      console.log(`AMACLCLIENT_ADDRESS is ${AMACLCLIENT_ADDRESS}`)
+      console.log(`AMACLCLIENTPROXY_ADDRESS is ${AMACLCLIENTPROXY_ADDRESS}`)
     }
     
     const contractOwner = await amaENSClient.connect(owner).owner();
@@ -52,7 +45,7 @@ async function main() {
     }
 
 
-    await amaENSClient.connect(owner).setController(AMACLCLIENT_ADDRESS, true);
+    await amaENSClient.connect(owner).setController(AMACLCLIENTPROXY_ADDRESS, true);
 
 
   }
