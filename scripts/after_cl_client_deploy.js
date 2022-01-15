@@ -5,7 +5,7 @@ namehash = require('eth-ens-namehash')
 // const { expect, assert } = require('chai');
 // require('dotenv').config()
 
-const AMAENSCLIENT_ADDRESS = "0x781baa25B5BE7Ee75EB2BdBB44e2342648Ad0d4C"
+const AMAENSCLIENT_ADDRESS = "0x7a1DE4809dA35ed497CB4756F77c9F2224598a5c"
 const AMACLCLIENTPROXY_ADDRESS = process.env.AMACLCLIENTPROXY_ADDRESS
 
 async function main() {

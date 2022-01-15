@@ -31,7 +31,6 @@ contract AMAENSClient is Controllable {
                 baseAddr = _baseRegistrarImplementation;
                 resolver = _resolver;
                 duration = _duration;
-
     }
 
     /**
@@ -42,7 +41,6 @@ contract AMAENSClient is Controllable {
         bytes32 label = keccak256(bytes(_label));
         uint256 tokenId = uint256(label);
         return (label, keccak256(abi.encodePacked(BaseRegistrarImplementation(baseAddr).baseNode(), label)), tokenId);
-
     }
     
     /**
@@ -103,15 +101,12 @@ contract AMAENSClient is Controllable {
             revert("This domain is not available");
         }
         uint256 expires = _register(nodehash, tokenId);
-
-
-
         // Configure the resolver
         _setResolverValues(nodehash, _owner);
 
         _setKeyPairs(nodehash, isTwitterVerified, nameOnTwitter, twitterUsername, profileImage, twitterID);
 
-        // Now transfer full ownership to the expeceted owner
+        // // Now transfer full ownership to the expeceted owner
         _transferOwnership(tokenId, _owner);
 
         emit NameRegistered(subdomain, label, _owner, expires);

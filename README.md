@@ -1,3 +1,27 @@
+#### Latest Deployment:
+
+- AMAEnsClinet: 0xB9a2eBd29B10797281375822259D741650379CB3
+- PublicResolver: 0x750f993bE3893233C64776c4a924bF17AD33abfe
+- ENSRegistry: 0x59e7FF6FFf8a5d0BEC4cAa05FB07cFC86430173D
+- BaseRegitrar: 0xC0ddE7A4dd1776c6096998B1F1b5353D7CacAEEA
+
+Note:
+TO find the owner of the subdomain, use 
+
+```
+getNodeHash(string memory _label) 
+```
+function on AMAENSClient to get the nodeHash of the label, for example if you want to get nodehash of
+amafansofficial.amafans, then use anafansofficial as _label to get the nodeHash which is 
+0x35d73f356b889ed2a58491b31f9e5babb6af79aed24a6dd80cfc4cccb25a34ab
+use this value of ENSregitsry contract to get the owner of the domain.
+
+
+
+
+
+
+
 This is the fork of the official ENS Repository. https://github.com/ensdomains .
 Because of the unavailability of the ENS repository on AVAX, We created this fork to let our users have access
 to the subdomains, To have an identity to be used on AMA.Fans platform.
@@ -83,13 +107,10 @@ to the subdomains, To have an identity to be used on AMA.Fans platform.
 AMAENSCLient contract can take actions on behalf of the BaseregistrarImplementation contract. This is required because before this 
 only baseregistrar could create subdomains for amafans on ENSregistry contract.
 
-10. setController function has to be called on the AMAENSCLient contract with operator as the address which will actually call the 
-registerNode function. for example, If we deployed the AMAENSCLient contract with rootAcccount, then setController has to be called 
-from this rootAccount and the operator will the be the address which will call the register function on the contract.
-10. The call registerNode function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
-11. Call function setApprovalForAll on the AMAENSCLient contract with the address of the AMACLCLient contract address in core_contracts repository.
+11. setController function has to be called on the AMAENSCLient contract with operator as the address of AMACLClient 
+12. The call registerNode function on the AMAENSCLient contract with the name and the owner (Only owner of the contract can call the same).
 
-12. The resolver will the default publicResolver.
+13. The resolver will the default publicResolver.
 
 
 
