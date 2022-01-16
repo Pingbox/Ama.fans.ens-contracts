@@ -1,9 +1,9 @@
 #### Latest Deployment:
 
-- AMAEnsClinet: 0xB9a2eBd29B10797281375822259D741650379CB3
-- PublicResolver: 0x750f993bE3893233C64776c4a924bF17AD33abfe
-- ENSRegistry: 0x59e7FF6FFf8a5d0BEC4cAa05FB07cFC86430173D
-- BaseRegitrar: 0xC0ddE7A4dd1776c6096998B1F1b5353D7CacAEEA
+- AMAEnsClient: 0x9ebaB16494C332108d61DdB3EC05A1CcE9d1a4Ad
+- PublicResolver: 0xBf9E626877513bB293153b6160B697059249140E
+- ENSRegistry: 0xbB9A30adA8218F8cD9184c22555735d16f878ab0
+- BaseRegitrar: 0x7896bcd414b089dD389c98e403897aADBCD70804
 
 Note:
 TO find the owner of the subdomain, use 
@@ -27,7 +27,7 @@ Because of the unavailability of the ENS repository on AVAX, We created this for
 to the subdomains, To have an identity to be used on AMA.Fans platform.
 
 
-#### labelhash of amafans: 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638: 
+#### NameHash of amafans: 0x2c36ca5c2f315c648f49b490565ed094e37a6e8d230039597a7827db6fbea638: 
 
 
 
@@ -67,6 +67,7 @@ to the subdomains, To have an identity to be used on AMA.Fans platform.
     ```
 		await ens.setSubnodeOwner('0x0', sha3('amafans'), registrar.address);
     ```
+    sha3('amafans') is the labelhash: 0x22eefbbc1c0b5e5abcfa458ff05bb36637914d1b055acf7c62a6a93c2210e8c6
 
 3. Testing the deployed contracts
     - #### First you need to add a controller to Baseregister so that address can create a new subdomain on amafans.
@@ -89,8 +90,9 @@ to the subdomains, To have an identity to be used on AMA.Fans platform.
             }
             BASENODE is namehash of AMAFans.
             ```
-            tokenId(testtest) = 67435640317129182582718462181570828843921522365924705664471817704192171889286
-            owner = "0x0000000000000000000000000000000000000001"
+            tokenId(test) = 70622639689279718371527342103894932928233838121221666359043189029713682937432
+	    nodehash(test) = 0xf90a0f90ddc34eaa5169bdd6a19e95ad0aaae90dfe3fe74b216907293f394ecf
+	    owner = "0x0000000000000000000000000000000000000001"
             duration = 31536000
             Call register from address_2
     - #### lets check on ENSRegistry if this subdomain has been created or not.

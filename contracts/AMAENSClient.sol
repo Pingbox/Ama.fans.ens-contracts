@@ -8,6 +8,7 @@ pragma experimental ABIEncoderV2;
 import "./ethregistrar/BaseRegistrarImplementation.sol";
 import "./resolvers/Resolver.sol";
 import "./root/Controllable.sol";
+import "@openzeppelin/contracts/utils/Strings.sol";
 
 
 contract AMAENSClient is Controllable {
@@ -88,7 +89,7 @@ contract AMAENSClient is Controllable {
             (string memory subdomain, 
             string memory nameOnTwitter, 
             string memory profileImage, 
-            string memory twitterID, 
+            uint256 twitterID, 
             bool isTwitterVerified) =  _decodeData(_bytes);
 
         // bytes32 label = keccak256(bytes(_label));
@@ -104,7 +105,7 @@ contract AMAENSClient is Controllable {
         // Configure the resolver
         _setResolverValues(nodehash, _owner);
 
-        _setKeyPairs(nodehash, isTwitterVerified, nameOnTwitter, twitterUsername, profileImage, twitterID);
+        _setKeyPairs(nodehash, isTwitterVerified, nameOnTwitter, twitterUsername, profileImage, Strings.toString(twitterID));
 
         // // Now transfer full ownership to the expeceted owner
         _transferOwnership(tokenId, _owner);
@@ -135,12 +136,12 @@ contract AMAENSClient is Controllable {
             emit NameRenewed(name, label, expires);
     }
         
-    function _decodeData(bytes memory _bytes) public pure returns (string memory, string memory, string memory, string memory, bool) {
+    function _decodeData(bytes memory _bytes) public pure returns (string memory, string memory, string memory, uint256, bool) {
         (string memory username, 
         string memory name, 
         string memory profileImage,
-        string memory id,
-        bool twitterVerified) = abi.decode(_bytes, (string,string,string,string,bool));
+        uint256 id,
+        bool twitterVerified) = abi.decode(_bytes, (string,string,string,uint256,bool));
 
         return (username, name, profileImage, id, twitterVerified);
     }
